@@ -1,0 +1,126 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://scenes/levels/BaseLevel.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/elements/GunActivator.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/elements/Goal.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/elements/Player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/elements/TriggeredPlatform.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/elements/SequencedPlatform.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/music/menu.ogg" type="AudioStream" id=7]
+[ext_resource path="res://scenes/elements/Trigger.tscn" type="PackedScene" id=8]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 20, 0.2, 20 )
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 40, 0.4, 40 )
+
+[sub_resource type="BoxShape" id=3]
+extents = Vector3( 0.2, 2, 20 )
+
+[sub_resource type="CubeMesh" id=4]
+size = Vector3( 0.4, 4, 40 )
+
+[sub_resource type="BoxShape" id=5]
+extents = Vector3( 2, 5, 2 )
+
+[sub_resource type="CubeMesh" id=6]
+size = Vector3( 4, 10, 4 )
+
+[sub_resource type="BoxShape" id=7]
+extents = Vector3( 100, 20, 100 )
+
+[node name="TestMap" type="Spatial"]
+
+[node name="BaseLevel" parent="." instance=ExtResource( 1 )]
+bpm = 106
+levelName = "TestMap_"
+
+[node name="GunActivator" parent="BaseLevel" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16 )
+
+[node name="Goal" parent="BaseLevel" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0 )
+
+[node name="FancyGraphics" type="Spatial" parent="BaseLevel"]
+
+[node name="Player" parent="BaseLevel" instance=ExtResource( 4 )]
+
+[node name="Boundary" type="Spatial" parent="BaseLevel"]
+editor/display_folded = true
+
+[node name="Floor" type="StaticBody" parent="BaseLevel/Boundary"]
+editor/display_folded = true
+
+[node name="CollisionShape" type="CollisionShape" parent="BaseLevel/Boundary/Floor"]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="BaseLevel/Boundary/Floor"]
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="WallA" type="StaticBody" parent="BaseLevel/Boundary"]
+editor/display_folded = true
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 2, 20 )
+
+[node name="CollisionShape" type="CollisionShape" parent="BaseLevel/Boundary/WallA"]
+shape = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="BaseLevel/Boundary/WallA"]
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="WallB" type="StaticBody" parent="BaseLevel/Boundary"]
+editor/display_folded = true
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 2, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="BaseLevel/Boundary/WallB"]
+shape = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="BaseLevel/Boundary/WallB"]
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="TriggeredPlatform" parent="BaseLevel" instance=ExtResource( 5 )]
+editor/display_folded = true
+yTarget = 2.0
+
+[node name="CollisionShape2" type="CollisionShape" parent="BaseLevel/TriggeredPlatform"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -5, -18 )
+shape = SubResource( 5 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="BaseLevel/TriggeredPlatform"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -5, -18 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="SequencedPlatform" parent="BaseLevel" instance=ExtResource( 6 )]
+editor/display_folded = true
+enabledOnStart = true
+yTarget = 2.0
+
+[node name="CollisionShape" type="CollisionShape" parent="BaseLevel/SequencedPlatform"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, -18 )
+shape = SubResource( 5 )
+
+[node name="MeshInstance" type="MeshInstance" parent="BaseLevel/SequencedPlatform"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, -18 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="BGM" type="AudioStreamPlayer" parent="BaseLevel"]
+stream = ExtResource( 7 )
+bus = "BGM"
+
+[node name="DeathPlane" type="Area" parent="BaseLevel"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -22, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="BaseLevel/DeathPlane"]
+shape = SubResource( 7 )
+
+[node name="Trigger" parent="BaseLevel" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 2, 10 )
+
+[connection signal="body_entered" from="BaseLevel/GunActivator" to="BaseLevel" method="on_activator_entered"]
+[connection signal="body_entered" from="BaseLevel/Goal" to="BaseLevel" method="on_goal_entered"]
+[connection signal="body_entered" from="BaseLevel/DeathPlane" to="BaseLevel" method="on_body_entered"]

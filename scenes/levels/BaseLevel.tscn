@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/BaseLevel.gd" type="Script" id=1]
+[ext_resource path="res://scenes/menus/LevelIntro.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/menus/StateMenu.tscn" type="PackedScene" id=3]
+
+[node name="BaseLevel" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="LevelIntro" parent="." instance=ExtResource( 2 )]
+
+[node name="StateMenu" parent="." instance=ExtResource( 3 )]
+visible = false
+
+[connection signal="visibility_changed" from="LevelIntro" to="." method="on_intro_invisible"]

@@ -1,0 +1,277 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://scenes/levels/BaseLevel.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/levels/01/Floor.material" type="Material" id=2]
+[ext_resource path="res://scenes/elements/SequencedPlatform.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/levels/02/Emitting.material" type="Material" id=4]
+[ext_resource path="res://scenes/levels/02/level_env.tres" type="Environment" id=5]
+[ext_resource path="res://scenes/elements/Player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/levels/02/bgm/02-pt01.ogg" type="AudioStream" id=7]
+[ext_resource path="res://scenes/elements/Goal.tscn" type="PackedScene" id=8]
+
+[sub_resource type="GIProbeData" id=6]
+bounds = AABB( -60, -40, -60, 120, 80, 120 )
+cell_size = 0.9375
+to_cell_xform = Transform( 1.06667, 0, 0, 0, 1.06667, 0, 0, 0, 1.06667, 64, 42.6667, 64 )
+dynamic_data = PoolIntArray( 0, 8, 128, 128, 128, 1, 0, 0, 2, 10, 0, 0, 8, 0, 387720144, 0, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 8355711, 0 )
+dynamic_range = 4
+energy = 0.8
+bias = 0.938
+normal_bias = 0.0
+propagation = 0.47
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 5, 5, 5 )
+
+[sub_resource type="CubeMesh" id=2]
+material = ExtResource( 2 )
+size = Vector3( 10, 10, 10 )
+
+[sub_resource type="BoxShape" id=3]
+extents = Vector3( 4, 1, 5 )
+
+[sub_resource type="CubeMesh" id=4]
+material = ExtResource( 4 )
+size = Vector3( 8, 2, 10 )
+
+[sub_resource type="BoxShape" id=5]
+extents = Vector3( 100, 10, 100 )
+
+[node name="Level02" type="Spatial"]
+editor/display_folded = true
+
+[node name="BaseLevel" parent="." instance=ExtResource( 1 )]
+levelId = 2
+bpm = 120
+levelName = "Level 02_"
+
+[node name="FancyGraphics" type="Spatial" parent="BaseLevel"]
+visible = false
+
+[node name="ReflectionProbe" type="ReflectionProbe" parent="BaseLevel/FancyGraphics"]
+extents = Vector3( 60, 40, 60 )
+
+[node name="GIProbe" type="GIProbe" parent="BaseLevel/FancyGraphics"]
+extents = Vector3( 60, 40, 60 )
+energy = 0.8
+propagation = 0.47
+bias = 0.938
+data = SubResource( 6 )
+
+[node name="BaseGeometry" type="StaticBody" parent="BaseLevel"]
+editor/display_folded = true
+
+[node name="CollisionShape" type="CollisionShape" parent="BaseLevel/BaseGeometry"]
+editor/display_folded = true
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 5 )
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="BaseLevel/BaseGeometry/CollisionShape"]
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="CollisionShape2" type="CollisionShape" parent="BaseLevel/BaseGeometry"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 0, 5 )
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="BaseLevel/BaseGeometry/CollisionShape2"]
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="CollisionShape3" type="CollisionShape" parent="BaseLevel/BaseGeometry"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 0, -50 )
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="BaseLevel/BaseGeometry/CollisionShape3"]
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="PlatformGrid" type="Spatial" parent="BaseLevel"]
+editor/display_folded = true
+
+[node name="SequencedPlatform" parent="BaseLevel/PlatformGrid" instance=ExtResource( 3 )]
+editor/display_folded = true
+enabledOnStart = true
+zTarget = 10.0
+initialDelay = 0.5
+sequence = "8"
+bpm = 120
+
+[node name="CollisionShape" type="CollisionShape" parent="BaseLevel/PlatformGrid/SequencedPlatform"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 4, -5 )
+shape = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="BaseLevel/PlatformGrid/SequencedPlatform/CollisionShape"]
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="SequencedPlatform2" parent="BaseLevel/PlatformGrid" instance=ExtResource( 3 )]
+editor/display_folded = true
+enabledOnStart = true
+zTarget = -10.0
+initialDelay = 1.25
+sequence = "8"
+bpm = 120
+
+[node name="CollisionShape" type="CollisionShape" parent="BaseLevel/PlatformGrid/SequencedPlatform2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 4, 15 )
+shape = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="BaseLevel/PlatformGrid/SequencedPlatform2/CollisionShape"]
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="SequencedPlatform3" parent="BaseLevel/PlatformGrid" instance=ExtResource( 3 )]
+editor/display_folded = true
+enabledOnStart = true
+zTarget = 10.0
+initialDelay = 2.0
+sequence = "8"
+bpm = 120
+
+[node name="CollisionShape" type="CollisionShape" parent="BaseLevel/PlatformGrid/SequencedPlatform3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 4, -5 )
+shape = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="BaseLevel/PlatformGrid/SequencedPlatform3/CollisionShape"]
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="SequencedPlatform4" parent="BaseLevel/PlatformGrid" instance=ExtResource( 3 )]
+editor/display_folded = true
+enabledOnStart = true
+zTarget = -10.0
+initialDelay = 2.75
+sequence = "8"
+bpm = 120
+
+[node name="CollisionShape" type="CollisionShape" parent="BaseLevel/PlatformGrid/SequencedPlatform4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 4, 15 )
+shape = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="BaseLevel/PlatformGrid/SequencedPlatform4/CollisionShape"]
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="SequencedPlatform5" parent="BaseLevel/PlatformGrid" instance=ExtResource( 3 )]
+editor/display_folded = true
+enabledOnStart = true
+zTarget = 10.0
+initialDelay = 3.5
+sequence = "8"
+bpm = 120
+
+[node name="CollisionShape" type="CollisionShape" parent="BaseLevel/PlatformGrid/SequencedPlatform5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 4, -5 )
+shape = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="BaseLevel/PlatformGrid/SequencedPlatform5/CollisionShape"]
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="PlatformGrid2" type="Spatial" parent="BaseLevel"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 49, 0, -42 )
+
+[node name="SequencedPlatform" parent="BaseLevel/PlatformGrid2" instance=ExtResource( 3 )]
+editor/display_folded = true
+enabledOnStart = true
+zTarget = 10.0
+initialDelay = 7.5
+sequence = "8"
+bpm = 120
+
+[node name="CollisionShape" type="CollisionShape" parent="BaseLevel/PlatformGrid2/SequencedPlatform"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 4, -5 )
+shape = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="BaseLevel/PlatformGrid2/SequencedPlatform/CollisionShape"]
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="SequencedPlatform2" parent="BaseLevel/PlatformGrid2" instance=ExtResource( 3 )]
+editor/display_folded = true
+enabledOnStart = true
+zTarget = -10.0
+initialDelay = 6.75
+sequence = "8"
+bpm = 120
+
+[node name="CollisionShape" type="CollisionShape" parent="BaseLevel/PlatformGrid2/SequencedPlatform2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 4, 15 )
+shape = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="BaseLevel/PlatformGrid2/SequencedPlatform2/CollisionShape"]
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="SequencedPlatform3" parent="BaseLevel/PlatformGrid2" instance=ExtResource( 3 )]
+editor/display_folded = true
+enabledOnStart = true
+zTarget = 10.0
+initialDelay = 6.0
+sequence = "8"
+bpm = 120
+
+[node name="CollisionShape" type="CollisionShape" parent="BaseLevel/PlatformGrid2/SequencedPlatform3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 4, -5 )
+shape = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="BaseLevel/PlatformGrid2/SequencedPlatform3/CollisionShape"]
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="SequencedPlatform4" parent="BaseLevel/PlatformGrid2" instance=ExtResource( 3 )]
+editor/display_folded = true
+enabledOnStart = true
+zTarget = -10.0
+initialDelay = 5.25
+sequence = "8"
+bpm = 120
+
+[node name="CollisionShape" type="CollisionShape" parent="BaseLevel/PlatformGrid2/SequencedPlatform4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 4, 15 )
+shape = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="BaseLevel/PlatformGrid2/SequencedPlatform4/CollisionShape"]
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="SequencedPlatform5" parent="BaseLevel/PlatformGrid2" instance=ExtResource( 3 )]
+editor/display_folded = true
+enabledOnStart = true
+zTarget = 10.0
+initialDelay = 4.5
+sequence = "8"
+bpm = 120
+
+[node name="CollisionShape" type="CollisionShape" parent="BaseLevel/PlatformGrid2/SequencedPlatform5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 4, -5 )
+shape = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="BaseLevel/PlatformGrid2/SequencedPlatform5/CollisionShape"]
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="BaseLevel"]
+environment = ExtResource( 5 )
+
+[node name="Player" parent="BaseLevel" instance=ExtResource( 6 )]
+transform = Transform( -2.98023e-08, 0, -1, 0, 1, 0, 1, 0, -2.98023e-08, -6, 5, 5 )
+speed = 2.0
+
+[node name="BGM" type="AudioStreamPlayer" parent="BaseLevel"]
+stream = ExtResource( 7 )
+
+[node name="DeathPlane" type="Area" parent="BaseLevel"]
+editor/display_folded = true
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -16, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="BaseLevel/DeathPlane"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6, 0 )
+shape = SubResource( 5 )
+
+[node name="Goal" parent="BaseLevel" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 5, -50 )
+
+[connection signal="body_entered" from="BaseLevel/DeathPlane" to="BaseLevel" method="on_body_entered"]
+[connection signal="body_entered" from="BaseLevel/Goal" to="BaseLevel" method="on_goal_entered"]

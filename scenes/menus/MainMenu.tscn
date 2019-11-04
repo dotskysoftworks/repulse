@@ -1,0 +1,124 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://src/themes/default_theme.tres" type="Theme" id=1]
+[ext_resource path="res://scripts/menus/MainMenu.gd" type="Script" id=2]
+[ext_resource path="res://scenes/elements/MetaContainer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/fonts/dynamic/title.tres" type="DynamicFont" id=4]
+[ext_resource path="res://scripts/AnimatedLabel.gd" type="Script" id=5]
+[ext_resource path="res://scenes/elements/LevelLoader.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/music/menu.ogg" type="AudioStream" id=7]
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="BG" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="MetaContainer" parent="." instance=ExtResource( 3 )]
+
+[node name="Title" type="Label" parent="MetaContainer"]
+margin_right = 540.0
+margin_bottom = 106.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "rePulse_"
+script = ExtResource( 5 )
+
+[node name="StartLabel" type="Label" parent="MetaContainer"]
+margin_top = 110.0
+margin_right = 540.0
+margin_bottom = 131.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "press enter to start_"
+script = ExtResource( 5 )
+
+[node name="MenuContainer" type="VBoxContainer" parent="MetaContainer"]
+visible = false
+margin_right = 530.0
+margin_bottom = 181.0
+
+[node name="StartButton" type="Button" parent="MetaContainer/MenuContainer"]
+margin_right = 540.0
+margin_bottom = 37.0
+text = "Start"
+align = 0
+
+[node name="SelectLevelButton" type="Button" parent="MetaContainer/MenuContainer"]
+margin_top = 74.0
+margin_right = 540.0
+margin_bottom = 111.0
+text = "Select Level"
+align = 0
+
+[node name="OptionButton" type="Button" parent="MetaContainer/MenuContainer"]
+margin_top = 111.0
+margin_right = 540.0
+margin_bottom = 148.0
+text = "Options"
+align = 0
+
+[node name="ExitButton" type="Button" parent="MetaContainer/MenuContainer"]
+margin_top = 148.0
+margin_right = 540.0
+margin_bottom = 185.0
+text = "Exit"
+align = 0
+
+[node name="ExtraContainer" type="VBoxContainer" parent="MetaContainer"]
+visible = false
+margin_top = 135.0
+margin_right = 540.0
+margin_bottom = 172.0
+
+[node name="OptionContainer" type="VBoxContainer" parent="MetaContainer/ExtraContainer"]
+visible = false
+margin_top = -24.0
+margin_right = 530.0
+margin_bottom = 106.0
+
+[node name="FancyButton" type="CheckButton" parent="MetaContainer/ExtraContainer/OptionContainer"]
+margin_right = 540.0
+margin_bottom = 48.0
+text = "Fancy Graphics"
+
+[node name="ResetGame" type="Button" parent="MetaContainer/ExtraContainer/OptionContainer"]
+margin_right = 20.0
+margin_bottom = 37.0
+text = "Reset Game"
+align = 0
+
+[node name="LevelContainer" type="VBoxContainer" parent="MetaContainer/ExtraContainer"]
+visible = false
+margin_right = 540.0
+margin_bottom = 78.0
+
+[node name="Level01" parent="MetaContainer/ExtraContainer/LevelContainer" instance=ExtResource( 6 )]
+
+[node name="Level02" parent="MetaContainer/ExtraContainer/LevelContainer" instance=ExtResource( 6 )]
+margin_top = 41.0
+margin_bottom = 78.0
+text = "Level 02"
+loaded = 2
+
+[node name="BackToMenu" type="Button" parent="MetaContainer/ExtraContainer"]
+margin_right = 540.0
+margin_bottom = 37.0
+text = "Back To Menu"
+align = 0
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+autoplay = true
+bus = "BGM"
+
+[connection signal="pressed" from="MetaContainer/MenuContainer/StartButton" to="." method="on_start_clicked"]
+[connection signal="pressed" from="MetaContainer/MenuContainer/SelectLevelButton" to="." method="on_levels_clicked"]
+[connection signal="pressed" from="MetaContainer/MenuContainer/OptionButton" to="." method="on_option_clicked"]
+[connection signal="pressed" from="MetaContainer/MenuContainer/ExitButton" to="." method="on_exit_clicked"]
+[connection signal="toggled" from="MetaContainer/ExtraContainer/OptionContainer/FancyButton" to="." method="fancy_button"]
+[connection signal="pressed" from="MetaContainer/ExtraContainer/OptionContainer/ResetGame" to="." method="on_reset_clicked"]
+[connection signal="pressed" from="MetaContainer/ExtraContainer/BackToMenu" to="." method="on_back_clicked"]

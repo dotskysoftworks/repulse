@@ -1,0 +1,65 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://src/themes/default_theme.tres" type="Theme" id=1]
+[ext_resource path="res://scripts/menus/StateMenu.gd" type="Script" id=2]
+[ext_resource path="res://scenes/elements/MetaContainer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/fonts/dynamic/title.tres" type="DynamicFont" id=4]
+[ext_resource path="res://scripts/AnimatedLabel.gd" type="Script" id=5]
+
+[node name="StateMenu" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="BG" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 1, 1, 1, 0.662745 )
+
+[node name="MetaContainer" parent="." instance=ExtResource( 3 )]
+
+[node name="State" type="Label" parent="MetaContainer"]
+margin_right = 540.0
+margin_bottom = 106.0
+custom_fonts/font = ExtResource( 4 )
+text = "LevelState_"
+script = ExtResource( 5 )
+
+[node name="OptionContainer" type="VBoxContainer" parent="MetaContainer"]
+margin_top = 110.0
+margin_right = 540.0
+margin_bottom = 270.0
+
+[node name="NextButton" type="Button" parent="MetaContainer/OptionContainer"]
+margin_right = 540.0
+margin_bottom = 37.0
+text = "Next Level"
+align = 0
+
+[node name="ContinueButton" type="Button" parent="MetaContainer/OptionContainer"]
+margin_top = 41.0
+margin_right = 540.0
+margin_bottom = 78.0
+text = "Continue"
+align = 0
+
+[node name="RestartButton" type="Button" parent="MetaContainer/OptionContainer"]
+margin_top = 82.0
+margin_right = 540.0
+margin_bottom = 119.0
+text = "Restart"
+align = 0
+
+[node name="ExitButton" type="Button" parent="MetaContainer/OptionContainer"]
+margin_top = 123.0
+margin_right = 540.0
+margin_bottom = 160.0
+text = "Exit"
+align = 0
+
+[connection signal="pressed" from="MetaContainer/OptionContainer/NextButton" to="." method="on_next_clicked"]
+[connection signal="pressed" from="MetaContainer/OptionContainer/ContinueButton" to="." method="on_continue_clicked"]
+[connection signal="pressed" from="MetaContainer/OptionContainer/RestartButton" to="." method="on_restart_clicked"]
+[connection signal="pressed" from="MetaContainer/OptionContainer/ExitButton" to="." method="on_exit_clicked"]
